@@ -47,7 +47,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
 
         // Set up a questinnaire with one boolean response question.
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_test_questionnaire($course, QUESYESNO, array('content' => 'Enter yes or no'));
         $question = reset($questionnaire->questions);
         $response = $generator->create_question_response($questionnaire, $question, 'y', $userid);
@@ -73,7 +77,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
 
         // Set up a questionnaire with one text response question.
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questiondata = array(
             'content' => 'Enter some text',
             'length' => 0,
@@ -103,7 +111,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
 
         // Set up a questionnaire with one text response question.
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_test_questionnaire($course, QUESDATE, array('content' => 'Enter a date'));
         $question = reset($questionnaire->questions);
         // Date format is configured per site. This won't work unless it matches the configured format.
@@ -131,7 +143,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
 
         // Set up a questinnaire with one question with choices including an "other" option.
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $choicedata = array(
             (object)array('content' => 'One', 'value' => 1),
             (object)array('content' => 'Two', 'value' => 2),
@@ -199,7 +215,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
 
         // Set up a questionnaire with one question with choices including an "other" option.
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $choicedata = array(
             (object)array('content' => 'One', 'value' => 1),
             (object)array('content' => 'Two', 'value' => 2),
@@ -251,7 +271,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
 
         // Set up a questionnaire with one ranking question.
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $choicedata = array(
             (object)array('content' => 'One', 'value' => 1),
             (object)array('content' => 'Two', 'value' => 2),
@@ -290,7 +314,11 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_instance(array('course' => $course->id));
         $cm = get_coursemodule_from_instance('questionnaire', $questionnaire->id);
 
@@ -300,7 +328,7 @@ class mod_questionnaire_responsetypes_testcase extends advanced_testcase {
         $questiondata['content'] = isset($questiondata['content']) ? $questiondata['content'] : 'Test content';
         $generator->create_question($questionnaire, $questiondata, $choicedata);
 
-        $questionnaire = new questionnaire($questionnaire->id, null, $course, $cm, true);
+        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm, true);
 
         return $questionnaire;
     }

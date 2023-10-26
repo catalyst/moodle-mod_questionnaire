@@ -24,7 +24,6 @@
  */
 
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 $id = required_param('id', PARAM_INT);    // Course module ID.
 $section = optional_param('section', 1, PARAM_INT);
@@ -49,16 +48,16 @@ if (! $questionnaire = $DB->get_record("questionnaire", ["id" => $cm->instance])
 
 // Needed here for forced language courses.
 require_course_login($course, true, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 $url = new moodle_url('/mod/questionnaire/fbsections.php', ['id' => $id]);
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 
-$questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
 if ($sectionid) {
     // Get the specified section by its id.
@@ -111,7 +110,7 @@ if ($action == 'removequestion') {
     }
 }
 
-$customdata = new stdClass();
+$customdata = new \stdClass();
 $customdata->feedbacksection = $feedbacksection;
 $customdata->validquestions = $validquestions;
 $customdata->survey = $questionnaire->survey;
@@ -216,7 +215,7 @@ if ($settings = $feedbackform->get_data()) {
 
         // Now set up new section feedback records for each saved boundary.
         for ($i = 0; $i <= $settings->feedbackboundarycount; $i++) {
-            $feedback = new stdClass();
+            $feedback = new \stdClass();
             $feedback->sectionid = $feedbacksection->id;
             if (isset($settings->feedbacklabel[$i])) {
                 $feedback->feedbacklabel = $settings->feedbacklabel[$i];
@@ -253,7 +252,7 @@ require('tabs.php');
 if ($action == 'confirmremovequestion') {
     $sectionid = required_param('sectionid', PARAM_INT);
     $qid = required_param('qid', PARAM_INT);
-    $msgargs = new stdClass();
+    $msgargs = new \stdClass();
     $msgargs->qname = $questionnaire->questions[$qid]->name;
     $msgargs->sname = $feedbacksection->sectionlabel;
     $msg = '<div class="warning centerpara"><p>' . get_string('confirmremovequestion', 'questionnaire', $msgargs) . '</p></div>';

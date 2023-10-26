@@ -364,7 +364,7 @@ class restore_questionnaire_activity_structure_step extends restore_activity_str
 
         // First, process any old system question dependencies into the new system.
         foreach ($this->olddependquestions as $newid => $olddependid) {
-            $newrec = new stdClass();
+            $newrec = new \stdClass();
             $newrec->questionid = $newid;
             $newrec->surveyid = $this->get_new_parentid('questionnaire_survey');
             $newrec->dependquestionid = $this->get_mappingid('questionnaire_question', $olddependid);

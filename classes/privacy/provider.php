@@ -178,8 +178,7 @@ class provider extends provider_helper {
      * @param   approved_contextlist $contextlist The approved contexts to export information for.
      */
     public static function _export_user_data(\core_privacy\local\request\approved_contextlist $contextlist) {
-        global $DB, $CFG;
-        require_once($CFG->dirroot . '/mod/questionnaire/questionnaire.class.php');
+        global $DB;
 
         if (empty($contextlist->count())) {
             return;

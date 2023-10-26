@@ -17,10 +17,9 @@
 require_once("../../config.php");
 require_once($CFG->dirroot.'/mod/questionnaire/locallib.php');
 require_once($CFG->libdir . '/completionlib.php');
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 $SESSION->questionnaire->current_tab = 'view';
 
@@ -33,7 +32,7 @@ list($cm, $course, $questionnaire) = questionnaire_get_standard_page_items($id, 
 
 // Check login and get context.
 require_course_login($course, true, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 $url = new moodle_url($CFG->wwwroot.'/mod/questionnaire/view.php');
 if (isset($id)) {
@@ -47,7 +46,7 @@ if (isset($sid)) {
 
 $PAGE->set_url($url);
 $PAGE->set_context($context);
-$questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
 $questionnaire->add_page(new \mod_questionnaire\output\viewpage());
@@ -144,7 +143,7 @@ if (isguestuser()) {
 
 // Log this course module view.
 // Needed for the event logging.
-$context = context_module::instance($questionnaire->cm->id);
+$context = \context_module::instance($questionnaire->cm->id);
 $anonymous = $questionnaire->respondenttype == 'anonymous';
 
 $event = \mod_questionnaire\event\course_module_viewed::create(array(

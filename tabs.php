@@ -31,7 +31,7 @@ $row  = array();
 $inactive = array();
 $activated = array();
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 $currenttab = $SESSION->questionnaire->current_tab;
 

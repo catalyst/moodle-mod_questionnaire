@@ -26,7 +26,6 @@
  * Require config.php
  */
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 $id = required_param('id', PARAM_INT);
 $cm = get_coursemodule_from_id('questionnaire', $id, 0, false, MUST_EXIST);

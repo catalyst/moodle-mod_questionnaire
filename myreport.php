@@ -17,7 +17,6 @@
 // This page shows results of a questionnaire to a student.
 
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 $instance = required_param('instance', PARAM_INT);   // Questionnaire ID.
 $userid = optional_param('user', $USER->id, PARAM_INT);
@@ -37,7 +36,7 @@ if (! $cm = get_coursemodule_from_instance("questionnaire", $questionnaire->id, 
 }
 
 require_course_login($course, true, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 $questionnaire->canviewallgroups = has_capability('moodle/site:accessallgroups', $context);
 // Should never happen, unless called directly by a snoop...
 if ( !has_capability('mod/questionnaire:readownresponses', $context)
@@ -65,7 +64,7 @@ $PAGE->set_context($context);
 $PAGE->set_title(get_string('questionnairereport', 'questionnaire'));
 $PAGE->set_heading(format_string($course->fullname));
 
-$questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
 $questionnaire->add_page(new \mod_questionnaire\output\reportpage());
@@ -75,7 +74,7 @@ $courseid = $course->id;
 
 // Tab setup.
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 $SESSION->questionnaire->current_tab = 'myreport';
 

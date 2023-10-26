@@ -73,8 +73,7 @@ class sectiontext extends base {
     }
 
     protected function question_survey_display($data, $descendantsdata, $blankquestionnaire=false) {
-        global $DB, $CFG, $PAGE;
-        require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
+        global $DB, $PAGE;
 
         // If !isset then normal behavior as sectiontext question.
         if (!isset($data->questionnaire_id)) {

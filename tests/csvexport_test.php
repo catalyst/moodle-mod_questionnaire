@@ -33,12 +33,7 @@ defined('MOODLE_INTERNAL') || die();
 
 class mod_questionnaire_csvexport_test extends advanced_testcase {
 
-    public function setUp() {
-        global $CFG;
-
-        require_once($CFG->dirroot.'/lib/testing/generator/data_generator.php');
-        require_once($CFG->dirroot.'/lib/testing/generator/component_generator_base.php');
-        require_once($CFG->dirroot.'/lib/testing/generator/module_generator.php');
+    public function setUp(): void {
     }
 
     /**
@@ -62,33 +57,37 @@ class mod_questionnaire_csvexport_test extends advanced_testcase {
 
     public function test_csvexport() {
         $this->resetAfterTest();
-        $dg = $this->getDataGenerator();
-        $qdg = $dg->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $qdg = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $qdg = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $qdg->create_and_fully_populate(1, 5, 1, 1);
 
         // The following line simply.
         $questionnaires = $qdg->questionnaires();
         foreach ($questionnaires as $questionnaire) {
             list ($course, $cm) = get_course_and_cm_from_instance($questionnaire->id, 'questionnaire', $questionnaire->course);
-            $questionnaireinst = new questionnaire(0, $questionnaire, $course, $cm);
+            $questionnaireinst = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
             // Test for only complete responses.
             $newoutput = $this->get_csv_text($questionnaireinst->generate_csv('', '', 0, 0, 0, 0));
             $this->assertEquals(count($newoutput), count($this->expected_complete_output()));
+            $courseindex = substr($course->shortname, 3);
             foreach ($newoutput as $key => $output) {
-                $this->assertEquals($this->expected_complete_output()[$key], $output);
+                $this->assertEquals($this->expected_complete_output($courseindex)[$key], $output);
             }
 
             // Test for all responses.
             $newoutput = $this->get_csv_text($questionnaireinst->generate_csv('', '', 0, 0, 0, 1));
             $this->assertEquals(count($newoutput), count($this->expected_incomplete_output()));
             foreach ($newoutput as $key => $output) {
-                $this->assertEquals($this->expected_incomplete_output()[$key], $output);
+                $this->assertEquals($this->expected_incomplete_output($courseindex)[$key], $output);
             }
         }
     }
 
-    private function expected_complete_output() {
+    private function expected_complete_output(int $courseindex = 1) {
         return ["Institution	Department	Course	Group	Full name	Username	Q01_Text Box 1000	Q02_Essay Box 1002	" .
             "Q03_Numeric 1004	Q04_Date 1006	Q05_Radio Buttons 1008	Q06_Drop Down 1010	Q07_Check Boxes 1012->four	" .
             "Q07_Check Boxes 1012->five	Q07_Check Boxes 1012->six	Q07_Check Boxes 1012->seven	Q07_Check Boxes 1012->eight	" .
@@ -97,17 +96,17 @@ class mod_questionnaire_csvexport_test extends advanced_testcase {
             "Q08_Rate Scale 1014->fifteen	Q08_Rate Scale 1014->sixteen	Q08_Rate Scale 1014->seventeen	" .
             "Q08_Rate Scale 1014->eighteen	Q08_Rate Scale 1014->nineteen	Q08_Rate Scale 1014->twenty	" .
             "Q08_Rate Scale 1014->happy	Q08_Rate Scale 1014->sad	Q08_Rate Scale 1014->jealous",
-            "		Test course 1		Testy Lastname1	username1	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname1	username1	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname2	username2	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname2	username2	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname3	username3	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname3	username3	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname4	username4	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname4	username4	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	"];
     }
 
-    private function expected_incomplete_output() {
+    private function expected_incomplete_output(int $courseindex = 1) {
         return ["Institution	Department	Course	Group	Full name	Username	Complete	Q01_Text Box 1000	" .
             "Q02_Essay Box 1002	" .
             "Q03_Numeric 1004	Q04_Date 1006	Q05_Radio Buttons 1008	Q06_Drop Down 1010	Q07_Check Boxes 1012->four	" .
@@ -117,15 +116,15 @@ class mod_questionnaire_csvexport_test extends advanced_testcase {
             "Q08_Rate Scale 1014->fifteen	Q08_Rate Scale 1014->sixteen	Q08_Rate Scale 1014->seventeen	" .
             "Q08_Rate Scale 1014->eighteen	Q08_Rate Scale 1014->nineteen	Q08_Rate Scale 1014->twenty	" .
             "Q08_Rate Scale 1014->happy	Q08_Rate Scale 1014->sad	Q08_Rate Scale 1014->jealous",
-            "		Test course 1		Testy Lastname1	username1	y	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname1	username1	y	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname2	username2	y	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname2	username2	y	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname3	username3	y	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname3	username3	y	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname4	username4	y	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname4	username4	y	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	",
-            "		Test course 1		Testy Lastname5	username5	n	Test answer	Some header textSome paragraph text	83	" .
+            "		Test course {$courseindex}		Testy Lastname5	username5	n	Test answer	Some header textSome paragraph text	83	" .
             "27/12/2017	wind	three	0	0	0	0	0	0	0	0	0	1	1	2	3	4	5	1	2	3	4	"];
     }
 }

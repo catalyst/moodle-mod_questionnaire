@@ -765,7 +765,7 @@ function xmldb_questionnaire_upgrade($oldversion=0) {
         // replaces when MDL-63310 is fixed and released.
         if ($DB->get_dbfamily() !== 'mysql') {
             $table = new xmldb_table('questionnaire_response_rank');
-            $field = new xmldb_field('rank', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL, null, null, null, '0', 'choice_id');
+            $field = new xmldb_field('rank', XMLDB_TYPE_INTEGER, '11', null, XMLDB_NOTNULL);
             if ($dbman->field_exists($table, $field)) {
                 $dbman->rename_field($table, $field, 'rankvalue');
             }

@@ -67,7 +67,6 @@ function questionnaire_add_instance($questionnaire) {
     // will create a new instance and return the id number
     // of the new instance.
     global $DB, $CFG;
-    require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
     require_once($CFG->dirroot.'/mod/questionnaire/locallib.php');
 
     // Check the realm and set it to the survey if it's set.
@@ -75,11 +74,11 @@ function questionnaire_add_instance($questionnaire) {
     if (empty($questionnaire->sid)) {
         // Create a new survey.
         $course = get_course($questionnaire->course);
-        $cm = new stdClass();
-        $qobject = new questionnaire(0, $questionnaire, $course, $cm);
+        $cm = new \stdClass();
+        $qobject = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
         if ($questionnaire->create == 'new-0') {
-            $sdata = new stdClass();
+            $sdata = new \stdClass();
             $sdata->name = $questionnaire->name;
             $sdata->realm = 'private';
             $sdata->title = $questionnaire->name;
@@ -238,7 +237,7 @@ function questionnaire_user_outline($course, $user, $mod, $questionnaire) {
     global $CFG;
     require_once($CFG->dirroot . '/mod/questionnaire/locallib.php');
 
-    $result = new stdClass();
+    $result = new \stdClass();
     if ($responses = questionnaire_get_user_responses($questionnaire->id, $user->id, true)) {
         $n = count($responses);
         if ($n == 1) {
@@ -347,7 +346,7 @@ function questionnaire_update_grades($questionnaire=null, $userid=0, $nullifnone
             $grades = array();
             foreach ($graderecs as $v) {
                 if (!isset($grades[$v->userid])) {
-                    $grades[$v->userid] = new stdClass();
+                    $grades[$v->userid] = new \stdClass();
                     if ($v->rawgrade == -1) {
                         $grades[$v->userid]->rawgrade = null;
                     } else {
@@ -542,8 +541,6 @@ function questionnaire_extend_settings_navigation(settings_navigation $settings,
     $rid = optional_param('rid', false, PARAM_INT); // Response id.
     $currentgroupid = optional_param('group', 0, PARAM_INT); // Group id.
 
-    require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
-
     $context = $PAGE->cm->context;
     $cmid = $PAGE->cm->id;
     $cm = $PAGE->cm;
@@ -554,7 +551,7 @@ function questionnaire_extend_settings_navigation(settings_navigation $settings,
     }
 
     $courseid = $course->id;
-    $questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+    $questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
     if ($owner = $DB->get_field('questionnaire_survey', 'courseid', ['id' => $questionnaire->sid])) {
         $owner = (trim($owner) == trim($courseid));
@@ -758,7 +755,6 @@ function questionnaire_get_recent_mod_activity(&$activities, &$index, $timestart
 
     global $CFG, $COURSE, $USER, $DB;
     require_once($CFG->dirroot . '/mod/questionnaire/locallib.php');
-    require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
     if ($COURSE->id == $courseid) {
         $course = $COURSE;
@@ -772,7 +768,7 @@ function questionnaire_get_recent_mod_activity(&$activities, &$index, $timestart
     $questionnaire = $DB->get_record('questionnaire', ['id' => $cm->instance]);
     $questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
 
-    $context = context_module::instance($cm->id);
+    $context = \context_module::instance($cm->id);
     $grader = has_capability('mod/questionnaire:viewsingleresponse', $context);
 
     // If this is a copy of a public questionnaire whose original is located in another course,
@@ -787,7 +783,7 @@ function questionnaire_get_recent_mod_activity(&$activities, &$index, $timestart
                 $questionnaire->survey->courseid);
             $contextoriginal = context_course::instance($questionnaire->survey->courseid, MUST_EXIST);
             if (!has_capability('mod/questionnaire:viewsingleresponse', $contextoriginal)) {
-                $tmpactivity = new stdClass();
+                $tmpactivity = new \stdClass();
                 $tmpactivity->type = 'questionnaire';
                 $tmpactivity->cmid = $cm->id;
                 $tmpactivity->cannotview = true;
@@ -869,7 +865,7 @@ function questionnaire_get_recent_mod_activity(&$activities, &$index, $timestart
             }
         }
 
-        $tmpactivity = new stdClass();
+        $tmpactivity = new \stdClass();
 
         $tmpactivity->type       = 'questionnaire';
         $tmpactivity->cmid       = $cm->id;
@@ -888,11 +884,11 @@ function questionnaire_get_recent_mod_activity(&$activities, &$index, $timestart
             $tmpactivity->nbattempts = $userattempts[$attempt->lastname];
         }
 
-        $tmpactivity->content = new stdClass();
+        $tmpactivity->content = new \stdClass();
         $tmpactivity->content->attemptid = $attempt->id;
 
         $userfields = explode(',', user_picture::fields());
-        $tmpactivity->user = new stdClass();
+        $tmpactivity->user = new \stdClass();
         foreach ($userfields as $userfield) {
             if ($userfield == 'id') {
                 $tmpactivity->user->{$userfield} = $attempt->userid;
@@ -958,7 +954,7 @@ function questionnaire_print_recent_mod_activity($activity, $courseid, $detail, 
         $urlparams = array('action' => 'vresp', 'instance' => $activity->cminstance,
                         'group' => $activity->groupid, 'rid' => $activity->content->attemptid, 'individualresponse' => 1);
 
-        $context = context_module::instance($activity->cmid);
+        $context = \context_module::instance($activity->cmid);
         if (has_capability('mod/questionnaire:viewsingleresponse', $context)) {
             $report = 'report.php';
         } else {

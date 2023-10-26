@@ -17,7 +17,6 @@
 // This page displays a non-completable instance of questionnaire.
 
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 $id     = optional_param('id', 0, PARAM_INT);
 $sid    = optional_param('sid', 0, PARAM_INT);
@@ -45,7 +44,7 @@ if ($id) {
         print_error('coursemisconf');
     }
     // Dummy questionnaire object.
-    $questionnaire = new stdClass();
+    $questionnaire = new \stdClass();
     $questionnaire->id = 0;
     $questionnaire->course = $course->id;
     $questionnaire->name = $survey->title;
@@ -79,7 +78,7 @@ $PAGE->set_url($url);
 $PAGE->set_context($context);
 $PAGE->set_cm($cm);   // CONTRIB-5872 - I don't know why this is needed.
 
-$questionnaire = new questionnaire($qid, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire($qid, $questionnaire, $course, $cm);
 
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
@@ -94,9 +93,9 @@ if (!$canpreview && !$popup) {
 }
 
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
-$SESSION->questionnaire->current_tab = new stdClass();
+$SESSION->questionnaire->current_tab = new \stdClass();
 $SESSION->questionnaire->current_tab = 'preview';
 
 $qp = get_string('preview_questionnaire', 'questionnaire');
@@ -149,7 +148,7 @@ echo $questionnaire->renderer->render($questionnaire->page);
 echo $questionnaire->renderer->footer($course);
 
 // Log this questionnaire preview.
-$context = context_module::instance($questionnaire->cm->id);
+$context = \context_module::instance($questionnaire->cm->id);
 $anonymous = $questionnaire->respondenttype == 'anonymous';
 
 $event = \mod_questionnaire\event\questionnaire_previewed::create(array(

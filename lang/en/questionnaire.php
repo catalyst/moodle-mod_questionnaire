@@ -35,7 +35,7 @@ $string['addquestiontosection'] = 'Add question to section';
 $string['addselqtype'] = 'Add selected question type';
 $string['alignment'] = 'Radio buttons Alignment';
 $string['alignment_help'] = 'Select buttons alignment: vertical (default) or horizontal.';
-$string['alignment_link'] = 'mod/questionnaire/questions#Radio_Buttons';
+$string['alignment_anchor'] = 'mod/questionnaire/questions#Radio_Buttons';
 $string['all'] = 'All';
 $string['alreadyfilled'] = 'You have already filled out this questionnaire for us{$a}. Thank you.';
 $string['andaveragevalues'] = 'and average values';
@@ -77,7 +77,7 @@ $string['chart:vprogress'] = 'Vertical Progress bar';
 $string['checkallradiobuttons'] = 'Please check <strong>{$a}</strong> radio buttons!';
 $string['checkboxes'] = 'Check Boxes';
 $string['checkboxes_help'] = 'Enter one option per line for the user to select one or multiple answers from. ';
-$string['checkboxes_link'] = 'mod/questionnaire/questions#Check_Boxes';
+$string['checkboxes_anchor'] = 'mod/questionnaire/questions#Check_Boxes';
 $string['checkbreaksadded'] = 'New Page Break(s) inserted at position(s):';
 $string['checkbreaksok'] = 'All the required Page breaks are present!';
 $string['checkbreaksremoved'] = 'Removed {$a} extra Page break(s).';
@@ -111,11 +111,11 @@ $string['couldnotdelresp'] = 'Could not delete response ';
 $string['couldnotcreatenewsurvey'] = 'Could not create a new survey!';
 $string['createcontent'] = 'Define New Content';
 $string['createcontent_help'] = 'Select one of the radio button options. \'Create new\' is the default.';
-$string['createcontent_link'] = 'mod/questionnaire/mod#Content_Options';
+$string['createcontent_anchor'] = 'mod/questionnaire/mod#Content_Options';
 $string['createnew'] = 'Create new';
 $string['date'] = 'Date';
 $string['date_help'] = 'Use this question type if you expect the response to be a correctly formatted date.';
-$string['date_link'] = 'mod/questionnaire/questions#Date';
+$string['date_anchor'] = 'mod/questionnaire/questions#Date';
 $string['dateformatting'] = 'Use the day/month/year format, e.g. for March 14th, 1945:&nbsp; <strong>14/3/1945</strong>';
 $string['deleteallresponses'] = 'Delete ALL Responses';
 $string['deletecurrentquestion'] = 'Delete question {$a}';
@@ -130,7 +130,7 @@ $string['dependencies'] = 'Dependencies';
 $string['dependquestion'] = 'Parent Question';
 $string['dependquestion_help'] = 'You can select a parent question and a choice option for this question. A child question will only be displayed
                 to the student if its parent question and parent choice have been previously selected.';
-$string['dependquestion_link'] = 'mod/questionnaire/questions#Parent_Question';
+$string['dependquestion_anchor'] = 'mod/questionnaire/questions#Parent_Question';
 $string['didnotrespondtoquestion'] = 'Did not respond to question';
 $string['directwarnings'] = 'Direct dependencies to this question will be removed. This will affect:';
 $string['displaymethod'] = 'Display method not defined for question.';
@@ -138,11 +138,11 @@ $string['download'] = 'Download';
 $string['downloadtextformat'] = 'Download as CSV';
 $string['downloadtextformat_help'] = 'This feature enables you to save all the responses of a questionnaire to a text file (CSV).
  This file can then be imported into a spreadsheet (e.g. MS Excel or Open Office Calc) or a statistical package for further processing the data.';
-$string['downloadtextformat_link'] = 'mod/questionnaire/report#Download_in_text_format';
+$string['downloadtextformat_anchor'] = 'mod/questionnaire/report#Download_in_text_format';
 $string['dropdown'] = 'Dropdown Box';
 $string['dropdown_help'] = 'There is no real advantage to using the Dropdown Box over using the Radio Buttons
  except perhaps for longish lists of options, to save screen space.';
-$string['dropdown_link'] = 'mod/questionnaire/questions#Dropdown_Box';
+$string['dropdown_anchor'] = 'mod/questionnaire/questions#Dropdown_Box';
 $string['edit'] = 'Edit';
 $string['editingfeedback'] = 'Editing feedback settings';
 $string['editingquestionnaire'] = 'Editing Questionnaire Settings';
@@ -170,7 +170,7 @@ $string['event_saved'] = 'Responses saved';
 $string['event_submitted'] = 'Responses submitted';
 $string['feedback'] = 'Feedback';
 $string['feedback_help'] = 'Feedback Help';
-$string['feedback_link'] = 'mod/questionnaire/personality_test#Editing_Questionnaire_Feedback_Messages';
+$string['feedback_anchor'] = 'mod/questionnaire/personality_test#Editing_Questionnaire_Feedback_Messages';
 $string['feedbackaddmorefeedbacks'] = 'Add {no} more feedback fields';
 $string['feedbackbysection'] = 'Sections Feedback';
 $string['feedbackdefaultlabel'] = '[New section]';
@@ -197,7 +197,7 @@ $string['feedbacknotes_help'] = 'Text entered here will be displayed to the resp
 $string['feedbackoptions'] = 'Feedback options';
 $string['feedbackoptions_help'] = 'Feedback options are available if your questionnaire contains the following question types and question settings:
 Radio buttons; Dropdown box; Yes/No; or Rate (normal or Osgood scale). Those questions must be set as Required, their Question Name field must NOT be empty and the Possible answers choices must contain a value.';
-$string['feedbackoptions_link'] = 'mod/questionnaire/personality_test';
+$string['feedbackoptions_anchor'] = 'mod/questionnaire/personality_test';
 $string['feedbackremovequestionfromsection'] = 'This question is part of feedback section [{$a}]';
 $string['feedbackremovesection'] = 'Removing this question will completely remove feedback section [{$a}]';
 $string['feedbackreport'] = 'Feedback Report';
@@ -215,7 +215,7 @@ $string['feedbacksection'] = 'Section';
 $string['feedbacksections'] = 'Feedback sections';
 $string['feedbacksectionsselect'] = 'Sections';
 $string['feedbacksectionsselect_help'] = 'Place your questions into those Sections';
-$string['feedbacksectionsselect_link'] = 'mod/questionnaire/personality_test#Editing_Questionnaire_Feedback_Sections_2';
+$string['feedbacksectionsselect_anchor'] = 'mod/questionnaire/personality_test#Editing_Questionnaire_Feedback_Sections_2';
 $string['feedbacksettingssaved'] = 'Feedback settings saved';
 $string['feedbacksectionquestions'] = '{$a} section questions';
 $string['feedbacktype'] = 'Feedback type';
@@ -247,17 +247,17 @@ $string['invalidsectionid'] = 'Invalid feedback section specified.';
 $string['indirectwarnings'] = 'This list shows the indirect dependent questions and the remaining dependencies for direct dependent questions:';
 $string['kindofratescale'] = 'Type of rate scale';
 $string['kindofratescale_help'] = 'Right-click on the More Help link below.';
-$string['kindofratescale_link'] = 'mod/questionnaire/questions#Type_of_rate_scale';
+$string['kindofratescale_anchor'] = 'mod/questionnaire/questions#Type_of_rate_scale';
 $string['lastrespondent'] = 'Last Respondent';
 $string['length'] = 'Length';
 $string['managequestions'] = 'Manage questions';
 $string['managequestions_help'] = 'In the Manage questions section of the Edit Questions page, you can conduct a number of operations on a Questionnaire\'s questions.';
-$string['managequestions_link'] = 'mod/questionnaire/questions#Manage_questions';
+$string['managequestions_anchor'] = 'mod/questionnaire/questions#Manage_questions';
 $string['mandatory'] = 'Mandatory - All these dependencies must be fulfilled.';
 $string['maxdigitsallowed'] = 'Max. digits allowed';
 $string['maxdigitsallowed_help'] = 'Use **Max. digits allowed** to set a limit to the number of characters entered for a Numeric question. Note that the
 decimal point also counts as one character!';
-$string['maxdigitsallowed_link'] = 'mod/questionnaire/questions#Numeric';
+$string['maxdigitsallowed_anchor'] = 'mod/questionnaire/questions#Numeric';
 $string['maxforcedresponses'] = 'Max. forced responses';
 $string['maxforcedresponses_help'] = 'Use these parameters to force respondent to tick a minimum of **Min.** boxes and a maximum of **Max.** check boxes. To
 force an exact number of check boxes to be ticked, set **Min.** and **Max.** to the same value. If only a min or a max value is desired, just leave the other
@@ -288,7 +288,7 @@ $string['myresults'] = 'Your Results';
 $string['name'] = 'Name';
 $string['navigate'] = 'Allow branching questions';
 $string['navigate_help'] = 'Enable Yes/No and Radio Buttons questions to have Child questions dependent on their choices in your questionnaire.';
-$string['navigate_link'] = 'mod/questionnaire/conditional_branching';
+$string['navigate_anchor'] = 'mod/questionnaire/conditional_branching';
 $string['navigatetosection'] = 'Go to feedback section';
 $string['next'] = 'Next';
 $string['nextpage'] = 'Next Page';
@@ -315,7 +315,7 @@ $string['notificationfull'] = 'Full submission';
 $string['notifications'] = 'Send submission notifications';
 $string['notificationsimple'] = 'Notification only';
 $string['notifications_help'] = 'Notify roles with the "mod/questionnaire:submissionnotification" capability when a submission is made.';
-$string['notifications_link'] = 'mod/questionnaire/mod#Submission_Notifications';
+$string['notifications_anchor'] = 'mod/questionnaire/mod#Submission_Notifications';
 $string['notopen'] = 'This questionnaire will not open until {$a}.';
 $string['notrequired'] = 'Response is not required';
 $string['notset'] = 'not set';
@@ -326,7 +326,7 @@ $string['numattemptsmade'] = '{$a} attempts made on this questionnaire';
 $string['numberfloat'] = 'The number you entered <strong>{$a->number}</strong> has been reformatted/rounded with <strong>{$a->precision}</strong> decimal place(s).';
 $string['numberofdecimaldigits'] = 'Nb of decimal digits';
 $string['numberofdecimaldigits_help'] = 'Use **Nb of decimal digits** to specify the format of the Average value counted and displayed at the Questionnaire Report page.';
-$string['numberofdecimaldigits_link'] = 'mod/questionnaire/questions#Numeric';
+$string['numberofdecimaldigits_anchor'] = 'mod/questionnaire/questions#Numeric';
 $string['numberscaleitems'] = 'Nb of scale items';
 $string['numberscaleitems_help'] = 'Nb of scale items is the *number of items* to be used in your rate scale. You would normally use a value of 3 to 5. Default value: **5**.';
 $string['numeric'] = 'Numeric';
@@ -341,7 +341,7 @@ $string['optionalname'] = 'Question Name';
 $string['optionalname_help'] = 'The Question Name is only used when you export responses to CSV/Excel format.
  If you never export to CSV, then you needn\'t worry about Question names at all.
  If you plan to regularly export your questionnaire data to CSV, then you have a choice of two options for question naming. ';
-$string['optionalname_link'] = 'mod/questionnaire/questions#Question_Name';
+$string['optionalname_anchor'] = 'mod/questionnaire/questions#Question_Name';
 $string['or'] = '- OR -';
 $string['order_ascending'] = 'Ascending order';
 $string['order_default'] = 'View Default order';
@@ -357,7 +357,7 @@ $string['orderresponses_help'] = 'When displaying All Responses you can order th
 
 When you arrive on the All Responses page, by default all responses are ordered in the order that the questionnaire creator entered the question choices.
  You can choose to order them by ascending or descending order.';
-$string['orderresponses_link'] = 'mod/questionnaire/report#Order_Responses';
+$string['orderresponses_anchor'] = 'mod/questionnaire/report#Order_Responses';
 $string['osgood'] = 'Osgood';
 $string['other'] = 'Other:';
 $string['otherempty'] = 'If you tick this choice you must enter some text in the text box!';
@@ -468,20 +468,20 @@ $string['questions'] = 'Questions';
 $string['questionsinsection'] = 'Questions in this section:';
 $string['questiontypes'] = 'Question types';
 $string['questiontypes_help'] = 'See the Moodle Documentation below';
-$string['questiontypes_link'] = 'mod/questionnaire/questions#Question_Types';
+$string['questiontypes_anchor'] = 'mod/questionnaire/questions#Question_Types';
 $string['radiobuttons'] = 'Radio Buttons';
 $string['radiobuttons_help'] = 'In this question type, the respondent must select one out of the choices offered.';
-$string['radiobuttons_link'] = 'mod/questionnaire/questions#Radio_Buttons';
+$string['radiobuttons_anchor'] = 'mod/questionnaire/questions#Radio_Buttons';
 $string['rank'] = 'Rank';
 $string['ratescale'] = 'Rate (scale 1..5)';
 $string['ratescale_help'] = 'See the Moodle Documentation below';
-$string['ratescale_link'] = 'mod/questionnaire/questions#Rate_.28scale_1..5.29';
+$string['ratescale_anchor'] = 'mod/questionnaire/questions#Rate_.28scale_1..5.29';
 $string['realm'] = 'Questionnaire Type';
 $string['realm_help'] = '* **There are  three types of questionnaires:**
  * Private - belongs to the course it is defined in only.
  * Template - can be copied and edited.
  * Public - can be shared among courses.';
-$string['realm_link'] = 'mod/questionnaire/qsettings#Questionnaire_Type';
+$string['realm_anchor'] = 'mod/questionnaire/qsettings#Questionnaire_Type';
 $string['redirecturl'] = 'The URL to which a user is redirected after completing this questionnaire.';
 $string['remove'] = 'Delete';
 $string['removenotinuse'] = 'This questionnaire used to depend on a Public questionnaire which has been deleted.
@@ -490,7 +490,7 @@ $string['required'] = 'Response is required';
 $string['required_help'] = 'If you select ***Yes***, response to this question will be required, i.e.
 the respondent will not be able to submit the questionnaire
 until this question has been answered.';
-$string['required_link'] = 'mod/questionnaire/questions#Response_Required';
+$string['required_anchor'] = 'mod/questionnaire/questions#Response_Required';
 $string['requiredparameter'] = 'A required parameter was missing.';
 $string['reset'] = 'Reset';
 $string['removeallquestionnaireattempts'] = 'Delete all questionnaire responses';
@@ -503,7 +503,7 @@ $string['respondents'] = 'Respondents';
 $string['respondenttype'] = 'Respondent Type';
 $string['respondenttype_help'] = 'You can display your users\' full names with each response by setting this to "fullname".
 You can hide your users\' identities from the responses by setting this to "anonymous".';
-$string['respondenttype_link'] = 'mod/questionnaire/mod#Respondent_Type';
+$string['respondenttype_anchor'] = 'mod/questionnaire/mod#Respondent_Type';
 $string['respondenttypeanonymous'] = 'anonymous';
 $string['respondenttypefullname'] = 'fullname';
 $string['response'] = 'Response';
@@ -513,7 +513,7 @@ $string['responseoptions'] = 'Response options';
 $string['responses'] = 'Responses';
 $string['responseview'] = 'Students can view ALL responses';
 $string['responseview_help'] = 'You can specify who can see the responses of all respondents to submitted questionnaires (general statistics tables).';
-$string['responseview_link'] = 'mod/questionnaire/mod#Response_viewing';
+$string['responseview_anchor'] = 'mod/questionnaire/mod#Response_viewing';
 $string['responseviewstudentsalways'] = 'Always';
 $string['responseviewstudentsnever'] = 'Never';
 $string['responseviewstudentswhenanswered'] = 'After answering the questionnaire';
@@ -522,7 +522,7 @@ $string['restrictedtoteacher'] = 'These functions are restricted to editing teac
 $string['resume'] = 'Save/Resume answers';
 $string['resume_help'] = 'Setting this option allows users to save their answers to a questionnaire before submitting them.
  Users can leave the questionnaire unfinished and resume from the save point at a later date.';
-$string['resume_link'] = 'mod/questionnaire/mod#Save/Resume_answers';
+$string['resume_anchor'] = 'mod/questionnaire/mod#Save/Resume_answers';
 $string['resumesurvey'] = 'Resume questionnaire';
 $string['return'] = 'Return';
 $string['save'] = 'Save';
@@ -613,7 +613,7 @@ $string['viewallresponses_help'] = 'If the questionnaire is set to **Group Mode*
  then the user has access to a dropdown list of groups. This dropdown list enables the user to "filter" the questionnaire responses by groups.
  If the setting is **Group Mode**: *Separate groups*, then users who do not have the *moodle/site:accessallgroups* capability
  (usually students, or non-editing teachers, etc.) will only be able to view the responses of the group(s) they belong to.';
-$string['viewallresponses_link'] = 'Viewing_Questionnaire_responses#Group_filtering';
+$string['viewallresponses_anchor'] = 'Viewing_Questionnaire_responses#Group_filtering';
 $string['viewbyresponse'] = 'List of responses';
 $string['viewindividualresponse'] = 'Individual responses';
 $string['viewindividualresponse_help'] = 'Click on the respondents\' names in the list below to view their individual responses.';

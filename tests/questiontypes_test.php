@@ -99,7 +99,11 @@ class mod_questionnaire_questiontypes_testcase extends advanced_testcase {
         $this->resetAfterTest();
 
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_instance(array('course' => $course->id));
         $cm = get_coursemodule_from_instance('questionnaire', $questionnaire->id);
 
@@ -129,7 +133,7 @@ class mod_questionnaire_questiontypes_testcase extends advanced_testcase {
         }
 
         // Questionnaire object should now have question record(s).
-        $questionnaire = new questionnaire($questionnaire->id, null, $course, $cm, true);
+        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm, true);
         $this->assertTrue($DB->record_exists('questionnaire_question', array('id' => $question->id)));
         $this->assertEquals('array', gettype($questionnaire->questions));
         $this->assertTrue(array_key_exists($question->id, $questionnaire->questions));

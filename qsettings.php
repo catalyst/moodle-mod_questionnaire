@@ -17,7 +17,6 @@
 // This page prints a particular instance of questionnaire.
 
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 $id = required_param('id', PARAM_INT);    // Course module ID.
 $currentgroupid = optional_param('group', 0, PARAM_INT); // Groupid.
@@ -38,15 +37,15 @@ if (! $questionnaire = $DB->get_record("questionnaire", array("id" => $cm->insta
 
 // Needed here for forced language courses.
 require_course_login($course, true, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 $url = new moodle_url($CFG->wwwroot.'/mod/questionnaire/qsettings.php', array('id' => $id));
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
-$questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
@@ -80,7 +79,7 @@ if ($settingsform->is_cancelled()) {
 }
 
 if ($settings = $settingsform->get_data()) {
-    $sdata = new stdClass();
+    $sdata = new \stdClass();
     $sdata->id = $settings->sid;
     $sdata->name = $settings->name;
     $sdata->realm = $settings->realm;

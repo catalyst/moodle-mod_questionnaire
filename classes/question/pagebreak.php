@@ -45,7 +45,7 @@ class pagebreak extends base {
         return '';
     }
 
-    public function edit_form(edit_question_form $form, questionnaire $questionnaire) {
+    public function edit_form(edit_question_form $form, \mod_questionnaire\questionnaire $questionnaire) {
         return false;
     }
 }

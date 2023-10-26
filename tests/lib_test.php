@@ -51,7 +51,7 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
 
     public function test_questionnaire_get_extra_capabilities() {
         $caps = questionnaire_get_extra_capabilities();
-        $this->assertInternalType('array', $caps);
+        $this->assertIsArray($caps);
         $this->assertEquals(1, count($caps));
         $this->assertEquals('moodle/site:accessallgroups', reset($caps));
     }
@@ -62,7 +62,7 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
         $course = $this->getDataGenerator()->create_course();
 
         // Create test data as a record.
-        $questdata = new stdClass();
+        $questdata = new \stdClass();
         $questdata->course = $course->id;
         $questdata->coursemodule = '';
         $questdata->name = 'Test questionnaire';
@@ -93,7 +93,11 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
         /** @var mod_questionnaire_generator $generator */
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         /** @var questionnaire $questionnaire */
         $questionnaire = $generator->create_instance(array('course' => $course->id, 'sid' => 1));
 
@@ -157,7 +161,11 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
         $questiondata = array();
         $questiondata['content'] = 'Enter yes or no';
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_test_questionnaire($course, QUESYESNO, $questiondata);
 
         $question = reset($questionnaire->questions);
@@ -183,7 +191,11 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
         $this->setAdminUser();
         $user = $this->getDataGenerator()->create_user();
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questiondata = array();
         $questiondata['content'] = 'Enter yes or no';
         $questionnaire = $generator->create_test_questionnaire($course, QUESYESNO, $questiondata);
@@ -203,7 +215,11 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
         $this->setAdminUser();
         $user = $this->getDataGenerator()->create_user();
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_test_questionnaire($course, QUESYESNO);
 
         $this->assertTrue(questionnaire_user_complete($course, $user, null, $questionnaire));
@@ -228,16 +244,20 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
 
         $user = $this->getDataGenerator()->create_user();
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_test_questionnaire($course);
 
         // Test for an array when user specified.
         $grades = questionnaire_get_user_grades($questionnaire, $user->id);
-        $this->assertInternalType('array', $grades);
+        $this->assertIsArray($grades);
 
         // Test for an array when no user specified.
         $grades = questionnaire_get_user_grades($questionnaire);
-        $this->assertInternalType('array', $grades);
+        $this->assertIsArray($grades);
     }
 
     public function test_questionnaire_update_grades() {
@@ -249,7 +269,11 @@ class mod_questionnaire_lib_testcase extends advanced_testcase {
         $this->resetAfterTest();
         $this->setAdminUser();
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_test_questionnaire($course);
         $questionnaire->cmidnumber = $questionnaire->cm->idnumber;
         $questionnaire->courseid = $questionnaire->course->id;

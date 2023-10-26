@@ -25,7 +25,6 @@
 
 require_once("../../config.php");
 require_once($CFG->dirroot.'/mod/questionnaire/locallib.php');
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 require_once($CFG->libdir.'/tablelib.php');
 
 // Get the params.
@@ -43,7 +42,7 @@ $qid    = optional_param('qid', 0, PARAM_INT);
 $currentgroupid = optional_param('group', 0, PARAM_INT); // Groupid.
 
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 
 $SESSION->questionnaire->current_tab = 'nonrespondents';
@@ -64,7 +63,7 @@ if ($id) {
     }
 }
 
-if (!$context = context_module::instance($cm->id)) {
+if (!$context = \context_module::instance($cm->id)) {
         print_error('badcontext');
 }
 
@@ -78,7 +77,7 @@ require_course_login($course, true, $cm);
 $url = new moodle_url('/mod/questionnaire/show_nonrespondents.php', array('id' => $cm->id));
 $PAGE->set_url($url);
 
-$questionnaire = new questionnaire($sid, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire($sid, $questionnaire, $course, $cm);
 
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
@@ -298,7 +297,7 @@ $countries = get_string_manager()->get_list_of_countries();
 
 $strnever = get_string('never');
 
-$datestring = new stdClass();
+$datestring = new \stdClass();
 $datestring->year  = get_string('year');
 $datestring->years = get_string('years');
 $datestring->day   = get_string('day');
@@ -505,7 +504,7 @@ echo $questionnaire->renderer->render($questionnaire->page);
 echo $questionnaire->renderer->footer();
 
 // Log this questionnaire show non-respondents action.
-$context = context_module::instance($questionnaire->cm->id);
+$context = \context_module::instance($questionnaire->cm->id);
 $anonymous = $questionnaire->respondenttype == 'anonymous';
 
 $event = \mod_questionnaire\event\non_respondents_viewed::create(array(

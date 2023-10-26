@@ -201,7 +201,7 @@ function questionnaire_choice_values($content) {
     // If we run the content through format_text first, any filters we want to use (e.g. multilanguage) should work.
     // examines the content of a possible answer from radio button, check boxes or rate question
     // returns ->text to be displayed, ->image if present, ->modname name of modality, image ->title.
-    $contents = new stdClass();
+    $contents = new \stdClass();
     $contents->text = '';
     $contents->image = '';
     $contents->modname = '';
@@ -296,7 +296,7 @@ function questionnaire_load_capabilities($cmid) {
 
     $context = questionnaire_get_context($cmid);
 
-    $cb = new stdClass();
+    $cb = new \stdClass();
     $cb->view                   = has_capability('mod/questionnaire:view', $context);
     $cb->submit                 = has_capability('mod/questionnaire:submit', $context);
     $cb->viewsingleresponse     = has_capability('mod/questionnaire:viewsingleresponse', $context);
@@ -330,7 +330,7 @@ function questionnaire_get_context($cmid) {
         return $context;
     }
 
-    if (!$context = context_module::instance($cmid)) {
+    if (!$context = \context_module::instance($cmid)) {
             print_error('badcontext');
     }
     return $context;
@@ -581,7 +581,7 @@ function questionnaire_set_events($questionnaire) {
     }
 
     // The open-event.
-    $event = new stdClass;
+    $event = new \stdClass;
     $event->description = $questionnaire->name;
     $event->courseid = $questionnaire->course;
     $event->groupid = 0;
@@ -634,7 +634,7 @@ function questionnaire_get_incomplete_users($cm, $sid,
 
     global $DB;
 
-    $context = context_module::instance($cm->id);
+    $context = \context_module::instance($cm->id);
 
     // First get all users who can complete this questionnaire.
     $cap = 'mod/questionnaire:submit';
@@ -876,7 +876,7 @@ function questionnaire_check_page_breaks($questionnaire) {
                     } else {
                         $pos = 1;
                     }
-                    $question = new stdClass();
+                    $question = new \stdClass();
                     $question->surveyid = $questionnaire->survey->id;
                     $question->type_id = QUESPAGEBREAK;
                     $question->position = $pos;
@@ -887,7 +887,7 @@ function questionnaire_check_page_breaks($questionnaire) {
                     }
                     $newpbids[] = $newqid;
                     $movetopos = $i;
-                    $questionnaire = new questionnaire($questionnaire->id, null, $course, $cm);
+                    $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm);
                     $questionnaire->move_question($newqid, $movetopos);
                 }
             }
@@ -898,7 +898,7 @@ function questionnaire_check_page_breaks($questionnaire) {
     } else if ($newpbids) {
         $msg .= get_string('checkbreaksadded', 'questionnaire').'&nbsp;';
         $newpbids = array_reverse ($newpbids);
-        $questionnaire = new questionnaire($questionnaire->id, null, $course, $cm);
+        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm);
         foreach ($newpbids as $newpbid) {
             $msg .= $questionnaire->questions[$newpbid]->position.'&nbsp;';
         }
@@ -910,7 +910,7 @@ function questionnaire_check_page_breaks($questionnaire) {
  * Code snippet used to set up the questionform.
  */
 function questionnaire_prep_for_questionform($questionnaire, $qid, $qtype) {
-    $context = context_module::instance($questionnaire->cm->id);
+    $context = \context_module::instance($questionnaire->cm->id);
     if ($qid != 0) {
         $question = clone($questionnaire->questions[$qid]);
         $question->qid = $question->id;

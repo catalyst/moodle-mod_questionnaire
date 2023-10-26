@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 
 $instance = optional_param('instance', false, PARAM_INT);   // Questionnaire ID.
 $action = optional_param('action', 'vall', PARAM_ALPHA);
@@ -60,14 +59,14 @@ if (! $cm = get_coursemodule_from_instance("questionnaire", $questionnaire->id, 
 
 require_course_login($course, true, $cm);
 
-$questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
 $questionnaire->add_page(new \mod_questionnaire\output\reportpage());
 
 // If you can't view the questionnaire, or can't view a specified response, error out.
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 if (!has_capability('mod/questionnaire:readallresponseanytime', $context) &&
     !($questionnaire->capabilities->view && $questionnaire->can_view_response($rid))) {
     // Should never happen, unless called directly by a snoop...
@@ -108,7 +107,7 @@ $PAGE->set_context($context);
 
 // Tab setup.
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 $SESSION->questionnaire->current_tab = 'allreport';
 
@@ -384,7 +383,7 @@ switch ($action) {
             }
 
             // Log this questionnaire delete all responses action.
-            $context = context_module::instance($questionnaire->cm->id);
+            $context = \context_module::instance($questionnaire->cm->id);
             $anonymous = $questionnaire->respondenttype == 'anonymous';
 
             $event = \mod_questionnaire\event\all_responses_deleted::create(array(

@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once("../../config.php");
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 require_once($CFG->dirroot.'/mod/questionnaire/classes/question/base.php'); // Needed for question type constants.
 
 $id     = required_param('id', PARAM_INT);                 // Course module ID
@@ -39,7 +38,7 @@ if (! $questionnaire = $DB->get_record("questionnaire", array("id" => $cm->insta
 }
 
 require_course_login($course, true, $cm);
-$context = context_module::instance($cm->id);
+$context = \context_module::instance($cm->id);
 
 $url = new moodle_url($CFG->wwwroot.'/mod/questionnaire/questions.php');
 $url->param('id', $id);
@@ -50,7 +49,7 @@ if ($qid) {
 $PAGE->set_url($url);
 $PAGE->set_context($context);
 
-$questionnaire = new questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
 
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
@@ -63,7 +62,7 @@ if (!$questionnaire->capabilities->editquestions) {
 $questionnairehasdependencies = $questionnaire->has_dependencies();
 $haschildren = [];
 if (!isset($SESSION->questionnaire)) {
-    $SESSION->questionnaire = new stdClass();
+    $SESSION->questionnaire = new \stdClass();
 }
 $SESSION->questionnaire->current_tab = 'questions';
 $reload = false;
@@ -111,7 +110,7 @@ if ($delq) {
     }
 
     // Log question deleted event.
-    $context = context_module::instance($questionnaire->cm->id);
+    $context = \context_module::instance($questionnaire->cm->id);
     $questiontype = \mod_questionnaire\question\base::qtypename($questionnaire->questions[$qid]->type_id);
     $params = array(
                     'context' => $context,
@@ -209,7 +208,7 @@ if ($action == 'main') {
 
         } else if (isset($qformdata->addqbutton)) {
             if ($qformdata->type_id == QUESPAGEBREAK) { // Adding section break is handled right away....
-                $questionrec = new stdClass();
+                $questionrec = new \stdClass();
                 $questionrec->surveyid = $qformdata->sid;
                 $questionrec->type_id = QUESPAGEBREAK;
                 $questionrec->content = 'break';
@@ -288,7 +287,7 @@ if ($action == 'main') {
 
     // Log question created event.
     if (isset($qformdata)) {
-        $context = context_module::instance($questionnaire->cm->id);
+        $context = \context_module::instance($questionnaire->cm->id);
         $questiontype = \mod_questionnaire\question\base::qtypename($qformdata->type_id);
         $params = array(
                         'context' => $context,
@@ -305,7 +304,7 @@ if ($action == 'main') {
 // Reload the form data if called for...
 if ($reload) {
     unset($questionsform);
-    $questionnaire = new questionnaire($questionnaire->id, null, $course, $cm);
+    $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm);
     // Add renderer and page objects to the questionnaire object for display use.
     $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
     $questionnaire->add_page(new \mod_questionnaire\output\questionspage());

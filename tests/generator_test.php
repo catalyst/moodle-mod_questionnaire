@@ -39,8 +39,14 @@ class mod_questionnaire_generator_testcase extends advanced_testcase {
         $this->assertFalse($DB->record_exists('questionnaire', array('course' => $course->id)));
 
         /** @var mod_questionnaire_generator $generator */
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
-        $this->assertInstanceOf('mod_questionnaire_generator', $generator);
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+            $this->assertInstanceOf('mod_questionnaire\testing\generator', $generator);
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+            $this->assertInstanceOf('mod_questionnaire_generator', $generator);
+        }
+
         $this->assertEquals('questionnaire', $generator->get_modulename());
 
         $questionnaire = $generator->create_instance(array('course' => $course->id));
@@ -51,7 +57,7 @@ class mod_questionnaire_generator_testcase extends advanced_testcase {
         $this->assertEquals('questionnaire', $cm->modname);
         $this->assertEquals($course->id, $cm->course);
 
-        $context = context_module::instance($cm->id);
+        $context = \context_module::instance($cm->id);
         $this->assertEquals($questionnaire->cmid, $context->instanceid);
 
         $survey = $DB->get_record('questionnaire_survey', array('id' => $questionnaire->sid));
@@ -70,10 +76,14 @@ class mod_questionnaire_generator_testcase extends advanced_testcase {
         $this->resetAfterTest(true);
 
         $course = $this->getDataGenerator()->create_course();
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        if (class_exists('\core\testing\component_generator')) { // Required for Totara 15 support
+            $generator = \mod_questionnaire\testing\generator::instance();
+        } else {
+            $generator = $this->getDataGenerator()->get_plugin_generator('mod_questionnaire');
+        }
         $questionnaire = $generator->create_instance(array('course' => $course->id));
         $cm = get_coursemodule_from_instance('questionnaire', $questionnaire->id);
-        $questionnaire = new questionnaire($questionnaire->id, null, $course, $cm, false);
+        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm, false);
 
         $newcontent = array(
             'title'         => 'New title',

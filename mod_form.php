@@ -25,7 +25,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/course/moodleform_mod.php');
-require_once($CFG->dirroot.'/mod/questionnaire/questionnaire.class.php');
 require_once($CFG->dirroot.'/mod/questionnaire/locallib.php');
 
 class mod_questionnaire_mod_form extends moodleform_mod {
@@ -34,7 +33,7 @@ class mod_questionnaire_mod_form extends moodleform_mod {
         global $COURSE;
         global $questionnairetypes, $questionnairerespondents, $questionnaireresponseviewers, $autonumbering;
 
-        $questionnaire = new questionnaire($this->_instance, null, $COURSE, $this->_cm);
+        $questionnaire = new \mod_questionnaire\questionnaire($this->_instance, null, $COURSE, $this->_cm);
 
         $mform    =& $this->_form;
 
