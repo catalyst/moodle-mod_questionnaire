@@ -119,7 +119,7 @@ final class generator extends \core\testing\mod_generator {
         $instance = parent::create_instance($record, (array)$options);
         $cm = get_coursemodule_from_instance('questionnaire', $instance->id);
         $course = get_course($cm->course);
-        $questionnaire = new \mod_questionnaire\questionnaire(0, $instance, $course, $cm, false);
+        $questionnaire = new \mod_questionnaire\questionnaire($course, $cm, 0, $instance, false);
         $this->questionnaires[$instance->id] = $questionnaire;
 
         return $questionnaire;

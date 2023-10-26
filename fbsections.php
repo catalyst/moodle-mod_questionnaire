@@ -57,7 +57,7 @@ if (!isset($SESSION->questionnaire)) {
     $SESSION->questionnaire = new \stdClass();
 }
 
-$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire($course, $cm, 0, $questionnaire);
 
 if ($sectionid) {
     // Get the specified section by its id.

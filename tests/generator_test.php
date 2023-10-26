@@ -83,7 +83,7 @@ class mod_questionnaire_generator_testcase extends advanced_testcase {
         }
         $questionnaire = $generator->create_instance(array('course' => $course->id));
         $cm = get_coursemodule_from_instance('questionnaire', $questionnaire->id);
-        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm, false);
+        $questionnaire = new \mod_questionnaire\questionnaire($course, $cm, $questionnaire->id, null, false);
 
         $newcontent = array(
             'title'         => 'New title',

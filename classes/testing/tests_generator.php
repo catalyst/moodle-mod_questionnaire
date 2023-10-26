@@ -138,7 +138,7 @@ trait tests_generator {
             $questiondata['content'] = isset($questiondata['content']) ? $questiondata['content'] : 'Test content';
             $this->create_question($questionnaire, $questiondata, $choicedata);
         }
-        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm, true);
+        $questionnaire = new \mod_questionnaire\questionnaire($course, $cm, $questionnaire->id, null, true);
         return $questionnaire;
     }
 
@@ -425,7 +425,7 @@ trait tests_generator {
      * @param boolean $complete Whether the response is complete or not.
      * @return stdClass the discussion object
      */
-    public function create_response($record = null, $questionresponses, $complete = true) {
+    public function create_response($questionresponses, $record = null, $complete = true) {
         global $DB;
 
         // Increment the response count.
@@ -553,7 +553,7 @@ trait tests_generator {
             }
 
         }
-        return $this->create_response(['questionnaireid' => $questionnaire->id, 'userid' => $userid], $responses, $complete);
+        return $this->create_response($responses, ['questionnaireid' => $questionnaire->id, 'userid' => $userid], $complete);
     }
 
     public function create_and_fully_populate($coursecount = 4, $studentcount = 20, $questionnairecount = 2,

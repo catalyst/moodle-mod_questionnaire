@@ -59,7 +59,7 @@ if (! $cm = get_coursemodule_from_instance("questionnaire", $questionnaire->id, 
 
 require_course_login($course, true, $cm);
 
-$questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
+$questionnaire = new \mod_questionnaire\questionnaire($course, $cm, 0, $questionnaire);
 
 // Add renderer and page objects to the questionnaire object for display use.
 $questionnaire->add_renderer($PAGE->get_renderer('mod_questionnaire'));
@@ -481,7 +481,7 @@ switch ($action) {
         $choicecodes = optional_param('choicecodes', '0', PARAM_INT);
         $choicetext  = optional_param('choicetext', '0', PARAM_INT);
         $showincompletes  = optional_param('complete', '0', PARAM_INT);
-        $output = $questionnaire->generate_csv('', $user, $choicecodes, $choicetext, $currentgroupid, $showincompletes);
+        $output = $questionnaire->generate_csv($currentgroupid, '', $user, $choicecodes, $choicetext, $showincompletes);
 
         // Use Moodle's core download function for outputting csv.
         $rowheaders = array_shift($output);

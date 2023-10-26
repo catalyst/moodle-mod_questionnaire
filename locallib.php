@@ -887,7 +887,7 @@ function questionnaire_check_page_breaks($questionnaire) {
                     }
                     $newpbids[] = $newqid;
                     $movetopos = $i;
-                    $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm);
+                    $questionnaire = new \mod_questionnaire\questionnaire($course, $cm, $questionnaire->id, null);
                     $questionnaire->move_question($newqid, $movetopos);
                 }
             }
@@ -898,7 +898,7 @@ function questionnaire_check_page_breaks($questionnaire) {
     } else if ($newpbids) {
         $msg .= get_string('checkbreaksadded', 'questionnaire').'&nbsp;';
         $newpbids = array_reverse ($newpbids);
-        $questionnaire = new \mod_questionnaire\questionnaire($questionnaire->id, null, $course, $cm);
+        $questionnaire = new \mod_questionnaire\questionnaire($course, $cm, $questionnaire->id, null);
         foreach ($newpbids as $newpbid) {
             $msg .= $questionnaire->questions[$newpbid]->position.'&nbsp;';
         }

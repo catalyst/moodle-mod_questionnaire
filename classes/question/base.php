@@ -771,11 +771,11 @@ abstract class base {
     /**
      * Get the output for question renderers / templates.
      * @param object $formdata
+     * @param boolean $blankquestionnaire
      * @param array $dependants Array of all questions/choices depending on this question.
      * @param integer $qnum
-     * @param boolean $blankquestionnaire
      */
-    public function question_output($formdata, $dependants=[], $qnum='', $blankquestionnaire) {
+    public function question_output($formdata, $blankquestionnaire, $dependants=[], $qnum='') {
         $pagetags = $this->questionstart_survey_display($qnum, $formdata);
         $pagetags->qformelement = $this->question_survey_display($formdata, $dependants, $blankquestionnaire);
         return $pagetags;

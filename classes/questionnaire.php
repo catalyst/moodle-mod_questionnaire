@@ -58,7 +58,7 @@ class questionnaire {
      * The class constructor
      *
      */
-    public function __construct($id = 0, $questionnaire = null, &$course, &$cm, $addquestions = true) {
+    public function __construct(&$course, &$cm, $id = 0, $questionnaire = null, $addquestions = true) {
         global $DB;
 
         if ($id) {
@@ -219,7 +219,7 @@ class questionnaire {
             // Handle the main questionnaire completion page.
             $quser = $USER->id;
 
-            $msg = $this->print_survey($USER->id, $quser);
+            $msg = $this->print_survey($quser, $USER->id);
 
             // If Questionnaire was submitted with all required fields completed ($msg is empty),
             // then record the submittal.
@@ -869,7 +869,7 @@ class questionnaire {
 
     // Display Methods.
 
-    public function print_survey($userid=false, $quser) {
+    public function print_survey($quser, $userid=false) {
         global $SESSION, $CFG;
 
         $formdata = new \stdClass();
@@ -976,7 +976,7 @@ class questionnaire {
         $this->page->add_to_page('formstart', $this->renderer->complete_formstart($action, ['referer' => $formdatareferer,
             'a' => $this->id, 'sid' => $this->survey->id, 'rid' => $formdatarid, 'sec' => $formdata->sec, 'sesskey' => sesskey()]));
         if (isset($this->questions) && $numsections) { // Sanity check.
-            $this->survey_render($formdata->sec, $msg, $formdata);
+            $this->survey_render($formdata, $formdata->sec, $msg);
             $controlbuttons = [];
             if ($formdata->sec > 1) {
                 $controlbuttons['prev'] = ['type' => 'submit', 'value' => '<< '.get_string('previouspage', 'questionnaire')];
@@ -1003,7 +1003,7 @@ class questionnaire {
         return $msg;
     }
 
-    private function survey_render($section = 1, $message = '', &$formdata) {
+    private function survey_render(&$formdata, $section = 1, $message = '') {
 
         $this->usehtmleditor = null;
 
@@ -1041,7 +1041,7 @@ class questionnaire {
             // Need questionnaire id to get the questionnaire object in sectiontext (Label) question class.
             $formdata->questionnaire_id = $this->id;
             $this->page->add_to_page('questions',
-                $this->renderer->question_output($question, $formdata, [], $i, $this->usehtmleditor));
+                $this->renderer->question_output($question, $formdata, $i, $this->usehtmleditor, []));
         }
 
         $this->print_survey_end($section, $numsections);
@@ -1182,7 +1182,7 @@ class questionnaire {
     }
 
     // Blankquestionnaire : if we are printing a blank questionnaire.
-    public function survey_print_render($message = '', $referer='', $courseid, $rid=0, $blankquestionnaire=false) {
+    public function survey_print_render($courseid, $message = '', $referer='', $rid=0, $blankquestionnaire=false) {
         global $DB, $CFG;
 
         if (! $course = $DB->get_record("course", array("id" => $courseid))) {
@@ -1273,7 +1273,7 @@ class questionnaire {
                 } else {
                     $dependants = [];
                 }
-                $output .= $this->renderer->question_output($question, $formdata, $dependants, $i++, null);
+                $output .= $this->renderer->question_output($question, $formdata, $i++, null, $dependants);
                 $this->page->add_to_page('questions', $output);
                 $output = '';
             }
@@ -1994,7 +1994,7 @@ class questionnaire {
     private function response_send_email($rid, $email) {
         global $CFG;
 
-        $submission = $this->generate_csv($rid, '', null, 1, 0);
+        $submission = $this->generate_csv(0, $rid, '', null, 1);
         if (!empty($submission)) {
             $answers = $this->get_formatted_answers_for_emails($submission);
         } else {
@@ -2823,7 +2823,7 @@ class questionnaire {
     /* {{{ proto array survey_generate_csv(int surveyid)
     Exports the results of a survey to an array.
     */
-    public function generate_csv($rid='', $userid='', $choicecodes=1, $choicetext=0, $currentgroupid, $showincompletes = 0) {
+    public function generate_csv($currentgroupid, $rid='', $userid='', $choicecodes=1, $choicetext=0, $showincompletes = 0) {
         global $DB;
 
         raise_memory_limit('1G');

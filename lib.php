@@ -75,7 +75,7 @@ function questionnaire_add_instance($questionnaire) {
         // Create a new survey.
         $course = get_course($questionnaire->course);
         $cm = new \stdClass();
-        $qobject = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
+        $qobject = new \mod_questionnaire\questionnaire($course, $cm, 0, $questionnaire);
 
         if ($questionnaire->create == 'new-0') {
             $sdata = new \stdClass();
@@ -551,7 +551,7 @@ function questionnaire_extend_settings_navigation(settings_navigation $settings,
     }
 
     $courseid = $course->id;
-    $questionnaire = new \mod_questionnaire\questionnaire(0, $questionnaire, $course, $cm);
+    $questionnaire = new \mod_questionnaire\questionnaire($course, $cm, 0, $questionnaire);
 
     if ($owner = $DB->get_field('questionnaire_survey', 'courseid', ['id' => $questionnaire->sid])) {
         $owner = (trim($owner) == trim($courseid));
