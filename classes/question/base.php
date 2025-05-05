@@ -817,7 +817,7 @@ abstract class base {
         // If we are on report page and this questionnaire has dependquestions and this question was skipped.
         if (($pagetype == 'mod-questionnaire-myreport' || $pagetype == 'mod-questionnaire-report') &&
             ($nonumbering == false) && !empty($formdata) && !empty($this->dependencies) &&
-            !array_key_exists('q'.$this->id, $formdata)) {
+            !property_exists($formdata, 'q'.$this->id)) {
             $skippedquestion = true;
             $skippedclass = ' unselected';
             $qnum = '<span class="'.$skippedclass.'">('.$qnum.')</span>';
