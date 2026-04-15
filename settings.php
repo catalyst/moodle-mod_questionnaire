@@ -24,13 +24,17 @@
 
 defined('MOODLE_INTERNAL') || die;
 
+use core\setting\type\text;
+use core\setting\type\select;
+use core\setting\type\select_multiple;
+
 if ($ADMIN->fulltree) {
     $options = array(0 => get_string('no'), 1 => get_string('yes'));
     $str = get_string('configusergraphlong', 'questionnaire');
-    $settings->add(new admin_setting_configselect('questionnaire/usergraph',
+    $settings->add(new select('questionnaire/usergraph',
                                     get_string('configusergraph', 'questionnaire'),
                                     $str, 0, $options));
-    $settings->add(new admin_setting_configtext('questionnaire/maxsections',
+    $settings->add(new text('questionnaire/maxsections',
                                     get_string('configmaxsections', 'questionnaire'),
                                     '', 10, PARAM_INT));
     $choices = array(
@@ -45,6 +49,6 @@ if ($ADMIN->fulltree) {
         'username' => get_string('username')
     );
 
-    $settings->add(new admin_setting_configmultiselect('questionnaire/downloadoptions',
+    $settings->add(new select_multiple('questionnaire/downloadoptions',
             get_string('textdownloadoptions', 'questionnaire'), '', array_keys($choices), $choices));
 }
