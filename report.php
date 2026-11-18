@@ -89,7 +89,7 @@ if ($outputtarget == 'pdf') {
 
 // If you can't view the questionnaire, or can't view a specified response, error out.
 $context = context_module::instance($cm->id);
-if (!$questionnaire->can_view_all_responses(null, true) && !$individualresponse) {
+if (!$questionnaire->can_open_report($action, $outputtarget, $rid)) {
     // Should never happen, unless called directly by a snoop...
     throw new \moodle_exception('nopermissions', 'mod_questionnaire');
 }
@@ -312,6 +312,7 @@ switch ($action) {
         break;
 
     case 'dvresp': // Delete single response. Do it!
+        require_sesskey();
         require_capability('mod/questionnaire:deleteresponses', $context);
 
         if (empty($questionnaire->survey)) {
@@ -320,7 +321,7 @@ switch ($action) {
             throw new \moodle_exception('surveyowner', 'mod_questionnaire');
         } else if (!$rid || !is_numeric($rid)) {
             throw new \moodle_exception('invalidresponse', 'mod_questionnaire');
-        } else if (!($response = $DB->get_record('questionnaire_response', array('id' => $rid)))) {
+        } else if (!($response = $DB->get_record('questionnaire_response', ['id' => $rid, 'questionnaireid' => $questionnaire->id]))) {
             throw new \moodle_exception('invalidresponserecord', 'mod_questionnaire');
         }
 
@@ -360,6 +361,7 @@ switch ($action) {
         break;
 
     case 'dvallresp': // Delete all responses in questionnaire (or group). Do it!
+        require_sesskey();
         require_capability('mod/questionnaire:deleteresponses', $context);
 
         if (empty($questionnaire->survey)) {
